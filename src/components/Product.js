@@ -43,9 +43,13 @@ const PRODUCT_QUERY = gql`
 `
 
 export class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {cartItems : []};
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {cartItems : []};
+  // }
+  state = {
+    cartItems : [],
+    index: 0
   }
   static propTypes = {}
 
@@ -61,8 +65,25 @@ export class Product extends Component {
     }
   }
 
+  myRef = React.createRef();
+
+  handleTab = (index) => {
+    this.setState({index: index})
+    // const images = this.myRef.current.children;
+    // for(let i = 0; i < images.length; i++){
+    //   images[i].className = images[i].className.replace("active", "");
+    // }
+    // images[index].className = ' active';
+  }
+
+  componentDidMount() {
+    const { index } = this.state
+    // this.myRef.current.children[index].className = 'active'
+  }
+
   render() {
-    let { id } = this.props.match.params   
+    let { id } = this.props.match.params 
+    const { index } = this.state
   
     return(
       <Container>
@@ -73,18 +94,22 @@ export class Product extends Component {
               if (loading) return <h1>Loading...</h1>
               if (error) console.log(error)
 
-              const { id, prices, gallery, name, brand, description, inStock, attributes } = data.product           
-
+              const { id, prices, gallery, name, brand, description, inStock, attributes } = data.product;      
               return <Wrapper>
-                <SideImages>
-                  {
+                <SideImgContainer>
+                  <SideWrapper>
+                    <SideList gallery={gallery} tab={this.handleTab} myRef={this.myRef}/>
+                  {/* {
                     gallery.map((gallery_item, index) => (
-                      <SideList key={gallery_item[0]} gallery_item={gallery_item} />
+                      <SideImageC src={gallery_item} key={index} ref={this.myRef} activeClassName = 'activeName'
+                      onClick = {() => this.handleSideImage(index)}
+                      />
                     ))
-                  }
-                </SideImages>
+                  } */}
+                  </SideWrapper>
+                </SideImgContainer>
                 <ProductImg>
-                  <Image_ src={gallery[0]} alt=""/> 
+                  <Image_ src={gallery[index]} alt=""/>
                 </ProductImg>
                 <ProductInfo>
                   <Brand>{brand}</Brand>
@@ -103,8 +128,9 @@ export class Product extends Component {
                     </PriceInfo>
                   </AttributesContainer> 
                   <Link to={'/cart'} style={{textDecoration: 'none'}}>
-                    <Button cartItems = {this.state.cartItems} onClick={()=>this.handleAddToCart(data.product)}>ADD TO CART</Button>
-                  
+                    <Button cartItems = {this.state.cartItems} onClick={()=>this.handleAddToCart(data.product)}> 
+                      ADD TO CART
+                    </Button>     
                   </Link>                   
                   <ProductDescription><div dangerouslySetInnerHTML={{__html: description}} /></ProductDescription>
                 </ProductInfo>
@@ -123,23 +149,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
+  margin-top: 50px; 
 `
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `
-const SideImages = styled.div`
-  margin-top: 100px; 
-  margin-right: 25px;
-`
 const ProductImg = styled.div`
   display: flex;
   box-sizing: border-box;
   flex: 1;
-  margin-left: 5px;
-  margin-top: 100px;
+  margin-left: 20px;
+  margin-top: 15px;
   justify-content: center;
   max-width: 500px;
    `
@@ -152,7 +175,7 @@ const Image_ = styled.img`
    `
 const ProductInfo = styled.div`
   // flex:1;
-  margin-top: 120px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -209,4 +232,30 @@ const ProductDescription = styled.div`
   flex-wrap: wrap; 
   font-size: 16px;
   margin-top: 5px;
+`
+const SideImgContainer = styled.div`
+  margin-left: 20px;
+`
+const SideWrapper = styled.div`
+  margin-left: 20px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  
+`
+const SideImageC = styled.img`
+  max-width: 130px;
+  height: 90px; 
+  object-fit: contain;
+  margin-bottom: 5px;
+  cursor: pointer;
+
+  &:hover,
+  $.active {
+    background-color: rgba(84, 78, 114, 1);
+    border-radius: 10px 0px 0px 10px;
+  }
+  &.active {
+    color: #f8dc2f;
+  }
 `

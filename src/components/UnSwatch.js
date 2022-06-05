@@ -35,6 +35,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
     margin: 6px;
     margin-left: 0;
+    cursor: pointer;
 
     &:hover{
         background: #1D1F22;

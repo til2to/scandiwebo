@@ -13,6 +13,7 @@ export class CartItem extends Component {
     return (
       <Container>
         Hello product {name}
+        this is {id}
       </Container>
     )
   }

@@ -52,7 +52,7 @@ export class Cart extends Component {
 
   render() {
     const { cartItems } = this.props
-    console.log(cartItems) 
+    // console.log(cartItems)
     return (
       <Container>
         <Title>CART</Title>
@@ -62,8 +62,7 @@ export class Cart extends Component {
               ({ data, loading, error }) => {
                 if (loading) return <h4> Loading.</h4>
                 if (error) console.log(error.message)
-
-                // console.log(data.category)
+                
                 return <Wrap>
                   {
                     data.category.products.map(product => (

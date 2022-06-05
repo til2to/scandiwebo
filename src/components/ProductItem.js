@@ -12,7 +12,6 @@ export class ProductItem extends Component {
     state = {
         prod: []
     }
-
     static propTypes = {
     }
 

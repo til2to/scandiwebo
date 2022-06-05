@@ -43,6 +43,7 @@ const ColorContainer = styled.div`
   margin: 6px;
   margin-left: 0;
   color: transparent;
+  cursor: pointer;
 
   &:hover{
       background: value;
