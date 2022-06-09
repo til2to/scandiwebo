@@ -10,16 +10,18 @@ import { Link } from 'react-router-dom';
 import Categories from './Categories';
 import { CategoryItem } from './CategoryItem';
 
-export class Navbar extends Component {
+export class Navbar extends Component{
+
   static propTypes = {}
 
   render() {
-    // const { catItem: { name } } = this.props
+    const { cartItems } = this.props 
+    // console.log(cartItems[0].name)
     return (
       <Container> 
           <Wrapper>
             <NavLeft>                
-                {/* <Left_first>
+                <Left_first>
                     <LeftItem>All</LeftItem>
                 </Left_first>
                 <Left_second>
@@ -27,7 +29,7 @@ export class Navbar extends Component {
                 </Left_second>
                 <Left_third>
                     <LeftItem>Clothes</LeftItem>
-                </Left_third> */}
+                </Left_third>
                 {/* <Link to={`/products/${name}`} style={{ textDecoration: "none" }}>
                     <p style={{ display: "flex" }}> {name} </p> 
                 </Link> */}
@@ -41,8 +43,8 @@ export class Navbar extends Component {
                     <Currency src={dollar} alt=""/>                             
                     <DownArrow src={down_arrow} alt=""/> 
                     <Bag src={basket_} alt="" />
+                    {cartItems.length}
                 </CurrencyItems>
-                
             </NavRight>
           </Wrapper>
       </Container>
@@ -120,6 +122,7 @@ const CurrencyItems = styled.div`
     align-items: center;
     justify-content: center;
     margin-right: 30px;
+    margin-left: 10px;
 
 `
 const DownArrow = styled.img`

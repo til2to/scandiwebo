@@ -9,107 +9,86 @@ import Categories from './Categories';
 import SideList from './SideList'
 import { Link } from 'react-router-dom';
 import { Cart } from './Cart';
+import { Products } from './Products';
+import { PRODUCT_QUERY } from '../Data/GraphqlData';
 
-const PRODUCT_QUERY = gql`
-    query productQuery($id: String!){ 
-        product(id: $id){
-            inStock
-            name
-            id
-            brand
-            description
-            gallery
-
-            attributes{
-                name
-                type
-                id
-                items{
-                    value
-                    displayValue
-                    id
-                }
-            }
-             
-            prices{
-                amount
-                currency{
-                    label
-                    symbol
-                }
-            }
-      }
-    }
-`
 
 export class Product extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {cartItems : []};
-  // }
-  state = {
-    cartItems : [],
-    index: 0
+  constructor() {
+    super();
+    this.state = {
+      index: 0,
+      cartItems: []
+    };
   }
+
   static propTypes = {}
 
-  // componentDidMount() {
-  //   const result = this.props.query({
-  //     query: PRODUCT_QUERY
-  //   }) 
+  addToCart = (currentProduct) => {
+  // const { cartItems } = this.state;
+  // const { id } = currentProduct;
+  // console.log(currentProduct);
+  // let alreadyInCart = false;
+  // const cartItem = cartItems.find(item => item.id === id)
+  // if (cartItem) {
+  //   cartItem.quantity += 1
+  //   alreadyInCart = true
+  // } else {
+  //   cartItems.push({ ...currentProduct, quantity: 1 })      
   // }
+  // console.log(cartItems.length)
 
-  handleAddToCart = (product) =>{
-    if(!product){
-      console.log('no product')
+  const cartItems = this.state.cartItems.slice();
+  let alreadyInCart = false;
+  cartItems.forEach((item) => {
+    if (item.id === currentProduct.id) {
+  return { ...item, count: item.count + 1 }
+      item.count+=1
+      alreadyInCart = true;
     }
+  });
+  if (!alreadyInCart) {
+    cartItems.push({ ...currentProduct, count: 1 });
+  }
+  this.setState({ cartItems })
   }
 
   myRef = React.createRef();
 
   handleTab = (index) => {
-    this.setState({index: index})
-    // const images = this.myRef.current.children;
-    // for(let i = 0; i < images.length; i++){
-    //   images[i].className = images[i].className.replace("active", "");
-    // }
-    // images[index].className = ' active';
+    this.setState({ index: index })
   }
 
   componentDidMount() {
-    const { index } = this.state
-    // this.myRef.current.children[index].className = 'active'
+    const { index } = this.state;
   }
 
   render() {
-    let { id } = this.props.match.params 
-    const { index } = this.state
-  
-    return(
+    let { id } = this.props.match.params
+    const { index, cartItems } = this.state;
+    // console.log(this.state)
+    return (
       <Container>
-        {/* <Categories /> */} 
+        {/* <Categories /> */}
+
+        <Navbar cartItems={cartItems} />
         <Query query={PRODUCT_QUERY} variables={{ id: id }}>
           {
             ({ loading, data, error }) => {
               if (loading) return <h1>Loading...</h1>
               if (error) console.log(error)
 
-              const { id, prices, gallery, name, brand, description, inStock, attributes } = data.product;      
+              const { id, prices, gallery, name, brand, description, inStock, attributes } = data.product;
+              let currentProduct = data.product;
+
               return <Wrapper>
                 <SideImgContainer>
                   <SideWrapper>
-                    <SideList gallery={gallery} tab={this.handleTab} myRef={this.myRef}/>
-                  {/* {
-                    gallery.map((gallery_item, index) => (
-                      <SideImageC src={gallery_item} key={index} ref={this.myRef} activeClassName = 'activeName'
-                      onClick = {() => this.handleSideImage(index)}
-                      />
-                    ))
-                  } */}
+                    <SideList gallery={gallery} tab={this.handleTab} myRef={this.myRef} />
                   </SideWrapper>
                 </SideImgContainer>
                 <ProductImg>
-                  <Image_ src={gallery[index]} alt=""/>
+                  <Image_ src={gallery[index]} alt="" />
                 </ProductImg>
                 <ProductInfo>
                   <Brand>{brand}</Brand>
@@ -117,8 +96,8 @@ export class Product extends Component {
                   <AttributesContainer>
                     {
                       data.product.attributes.map((item) => (
-                      <Attributes key={item.id} item={item} />
-                      )) 
+                        <Attributes key={item.id} item={item} />
+                      ))
                     }
                     <PriceInfo>
                       <AttributePrice>PRICE :</AttributePrice>
@@ -126,17 +105,24 @@ export class Product extends Component {
                         {prices[0].currency.symbol} {prices[0].amount}
                       </AttributePrice>
                     </PriceInfo>
-                  </AttributesContainer> 
-                  <Link to={'/cart'} style={{textDecoration: 'none'}}>
-                    <Button cartItems = {this.state.cartItems} onClick={()=>this.handleAddToCart(data.product)}> 
+                  </AttributesContainer>
+
+                  {/* <Link to='/cart' style={{ textDecoration: 'none' }}>
+                    <Button onClick={() => this.addToCart(currentProduct)}>
                       ADD TO CART
-                    </Button>     
-                  </Link>                   
-                  <ProductDescription><div dangerouslySetInnerHTML={{__html: description}} /></ProductDescription>
+                    </Button>
+                  </Link> */}
+                  <Button onClick={() => this.addToCart(currentProduct)} >
+                    ADD TO CART
+                  </Button>
+                  <Hide>
+                    {/* <Cart addToCart={this.addToCart} /> */}
+                  </Hide>
+                  <ProductDescription><div dangerouslySetInnerHTML={{ __html: description }} /></ProductDescription>
                 </ProductInfo>
               </Wrapper>
             }
-          } 
+          }
         </Query>
       </Container>
     )
@@ -258,4 +244,7 @@ const SideImageC = styled.img`
   &.active {
     color: #f8dc2f;
   }
+`
+const Hide = styled.div`
+  display: none;
 `

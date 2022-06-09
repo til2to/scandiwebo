@@ -1,63 +1,35 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Query } from 'react-apollo'
-import { gql } from 'graphql-tag'
 import styled from 'styled-components'
-import Product from './Product'
 import { Attributes } from './Attributes';
 import { SideList } from './SideList';
 import { ProductItem } from './ProductItem';
 import CartItem from './CartItem'
+import { PRODUCT_QUERY } from '../Data/GraphqlData'
+import Product from './Product'
 
-const PRODUCT_QUERY = gql`
-    query productQuery($title: String!){ 
-        category(input: {title: $title}){
-          name
-          products{
-            inStock
-            name
-            id
-            brand
-            description
-            gallery
-
-            attributes{
-              id
-              type
-              name
-
-              items{
-                id
-                value
-                displayValue
-              }
-            }
-          
-            prices{
-              amount
-              currency{
-                label
-                symbol
-              }
-            }
-          }
-      }
-    }
-`
 
 export class Cart extends Component {
-  static propTypes = {
-
-  }
 
   render() {
-    const { cartItems } = this.props
-    // console.log(cartItems)
+    const { cartItems } = this.props;
+
     return (
       <Container>
         <Title>CART</Title>
+        {/* {cartItems?.length} */}
+        <Hide>
+          {/* <Product addToCart={this.addToCart} /> */}
+        </Hide>
         <LeftContainer>
-          <Query query={PRODUCT_QUERY} variables={{ title: "all" }}>
+          {/* {
+          cartItems?.length == undefined ? (<EmptyCart>Your cart is empty</EmptyCart>)
+          : (<CartNumber> You have {cartItems?.length} in the cart</CartNumber>)
+          } */}
+          <Button >
+            ADD TO CART
+          </Button>
+          {/* <Query query={PRODUCT_QUERY} variables={{ title: "all" }}>
             {
               ({ data, loading, error }) => {
                 if (loading) return <h4> Loading.</h4>
@@ -72,7 +44,7 @@ export class Cart extends Component {
                 </Wrap>
               }
             }
-          </Query>
+          </Query> */}
         </LeftContainer>
       </Container>
     )
@@ -81,22 +53,22 @@ export class Cart extends Component {
 
 export default Cart
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+`
 const Wrap = styled.div`
   display: flex;
 `
 const Title = styled.div`
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
 `
 const LeftContainer = styled.div`
   flex: 1
 `
 const RightContainer = styled.div`
   flex; 1
-`
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 30px;
 `
 const SideImages = styled.div`
   margin-top: 100px; 
@@ -155,6 +127,16 @@ const PriceInfo = styled.span`
   display: flex;
   flex-direction: column;
 `
+const EmptyCart = styled.div`
+  // margin-top: 100px;
+  margin-bottom: 100px;
+  font-size: 20px;
+  text-align: center;
+  color: #1D1F22;
+`
+const CartNumber = styled.div`
+
+`
 const Button = styled.div`
   font-weight: 600;
   color: white;
@@ -170,4 +152,7 @@ const Button = styled.div`
   margin-top: 5px;
   margin-bottom: 10px;
   align-items: center;  
+`
+const Hide = styled.div`
+  display: none;
 `

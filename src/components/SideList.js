@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
 export class SideList extends Component {
-  state = {}
   static propTypes = {}
 
   // handleSideImage = (index) => {
@@ -48,6 +47,9 @@ const SideImage = styled.img`
   width: 130px;
   height: 90px; 
   object-fit: contain;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
   
   cursor: pointer;
 

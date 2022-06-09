@@ -9,11 +9,7 @@ import basket from '../images/basket.png'
 
 
 export class ProductItem extends Component {
-    state = {
-        prod: []
-    }
-    static propTypes = {
-    }
+    static propTypes = {}
 
     render() {
         const { name, brand, gallery, id, prices, inStock } = this.props.prod;

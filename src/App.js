@@ -23,20 +23,19 @@ export class App extends Component {
   static propTypes = {}
 
   render() {
-    
     return (
       <ApolloProvider client={client}>
         <Router>
           <div className='app'>
             <Switch>
-              <Route exact path='/cart' component={Cart}/>
-              <Route path='/product/:id' component={Product}/> 
-              <Route path='/products/:name' component={Products}/>
+              <Route exact path='/cart' component={Cart} />
+              <Route path='/product/:id' component={Product} />
+              <Route path='/products/:name' component={Products} />
               <Route exact path='/'>
                 <Navbar />
-                <Redirect to='/products/all/'/>
+                <Redirect to='/products/all/' />
               </Route>
-              
+
             </Switch>
           </div>
         </Router>

@@ -11,68 +11,26 @@ import Categories from './Categories';
 import { Navbar } from './Navbar';
 import { CategoryItem } from './CategoryItem';
 import { withApollo } from 'react-apollo'
+import { ALLPRODUCT_QUERY } from '../Data/GraphqlData'
+import { Cart } from './Cart';
 
-
-const PRODUCT_QUERY = gql`
-    query productQuery($title: String!){ 
-        category(input: {title: $title}){
-          name
-          products{
-            inStock
-            name
-            id
-            brand
-            description
-            gallery
-
-            attributes{
-              id
-              type
-              name
-
-              items{
-                id
-                value
-                displayValue
-              }
-            }
-          
-            prices{
-              amount
-              currency{
-                label
-                symbol
-              }
-            }
-          }
-      }
-    }
-`
 
 export class Products extends Component {
-  state = {}
-  
-  // componentDidMount() {
-  //   const result = this.props.client.query({
-  //     query: PRODUCT_QUERY, variables: { title: this.props.match.params.name }
-  //   }) 
-  // }
 
   render() {
-    let { name } = this.props.match.params 
+    let { name } = this.props.match.params
     return (
       <Container>
         <Categories />
-        <Query query={PRODUCT_QUERY} variables={{ title: name }}>
+        <Query query={ALLPRODUCT_QUERY} variables={{ title: name }}>
           {
             ({ data, loading, error }) => {
               if (loading) return <h4> Loading.</h4>
               if (error) console.log(error.message)
-             
               return <Wrap>
                 {
                   data.category.products.map(prod => (
-                    <ProductItem key={prod.id} prod={prod}/>
+                    <ProductItem key={prod.id} prod={prod} />
                   ))
                 }
               </Wrap>

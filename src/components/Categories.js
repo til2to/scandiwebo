@@ -6,34 +6,10 @@ import { Query } from 'react-apollo'
 import { gql } from 'graphql-tag'
 import CategoryName from './CategoryName'
 import { Navbar } from './Navbar'
-
-
-const CATEGORIES_QUERY = gql`
-    query categoriesQuery{ 
-        categories{
-          name
-          products{
-            name
-            brand
-            id
-            gallery
-            description
-            inStock
-            category
-          }
-        }
-    }
-`
+import { CATEGORIES_QUERY } from '../Data/GraphqlData'
 
 class Categories extends Component {
   static propTypes = {}
-  // filterClothes = (cat) => {
-  //   const results = this.data.categories.filter((catItem) => {
-  //     return catItem.name === catItem.name
-  //     console.log(catItem[0].name)
-  //   })
-  //   this.setState({clothes_data: results})
-  // }
 
   render() {
     return (
