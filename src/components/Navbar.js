@@ -43,7 +43,7 @@ export class Navbar extends Component{
                     <Currency src={dollar} alt=""/>                             
                     <DownArrow src={down_arrow} alt=""/> 
                     <Bag src={basket_} alt="" />
-                    {cartItems.length}
+                    {/* {cartItems.length} */}
                 </CurrencyItems>
             </NavRight>
           </Wrapper>

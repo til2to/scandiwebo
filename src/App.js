@@ -12,6 +12,7 @@ import { Products } from './components/Products';
 import { Product } from './components/Product';
 import { ProductItem } from './components/ProductItem';
 import Cart from './components/Cart';
+import { ALLPRODUCT_QUERY } from './Data/GraphqlData'
 
 
 const client = new ApolloClient({
@@ -21,6 +22,10 @@ const client = new ApolloClient({
 
 export class App extends Component {
   static propTypes = {}
+
+  // componentDidMount() {
+  //   client.query({ query: ALLPRODUCT_QUERY })
+  // }
 
   render() {
     return (

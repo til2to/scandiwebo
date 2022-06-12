@@ -108,15 +108,16 @@ export class Product extends Component {
                   </AttributesContainer>
 
                   {/* <Link to='/cart' style={{ textDecoration: 'none' }}>
-                    <Button onClick={() => this.addToCart(currentProduct)}>
+                    <Button onClick={() => this.addToCart(currentProduct)} cartItems={cartItems}>
                       ADD TO CART
                     </Button>
                   </Link> */}
                   <Button onClick={() => this.addToCart(currentProduct)} >
                     ADD TO CART
                   </Button>
+                  {console.log(cartItems)}
                   <Hide>
-                    {/* <Cart addToCart={this.addToCart} /> */}
+                    <Cart cartItems={cartItems} />
                   </Hide>
                   <ProductDescription><div dangerouslySetInnerHTML={{ __html: description }} /></ProductDescription>
                 </ProductInfo>

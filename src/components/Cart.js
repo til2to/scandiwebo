@@ -7,12 +7,18 @@ import { ProductItem } from './ProductItem';
 import CartItem from './CartItem'
 import { PRODUCT_QUERY } from '../Data/GraphqlData'
 import Product from './Product'
+import { gql } from 'graphql-tag';
 
-
+// export const GET_CART_ITEMS = gql`
+//   query GetCartItems {
+//     cartItems: cartItems
+//   }
+// `
 export class Cart extends Component {
 
   render() {
-    const { cartItems } = this.props;
+    const { cartItems, currentProduct } = this.props;
+    console.log(cartItems);
 
     return (
       <Container>
