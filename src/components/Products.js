@@ -13,9 +13,11 @@ import { CategoryItem } from './CategoryItem';
 import { withApollo } from 'react-apollo'
 import { ALLPRODUCT_QUERY } from '../Data/GraphqlData'
 import { Cart } from './Cart';
+import { fetchProducts } from '../actions/ProductsActions';
+import { connect } from 'react-redux';
 
 
-export class Products extends Component {
+class Products extends Component {
 
   render() {
     let { name } = this.props.match.params
@@ -27,6 +29,7 @@ export class Products extends Component {
             ({ data, loading, error }) => {
               if (loading) return <h4> Loading.</h4>
               if (error) console.log(error.message)
+              if(data) console.log(data)
               return <Wrap>
                 {
                   data.category.products.map(prod => (
@@ -42,7 +45,10 @@ export class Products extends Component {
   }
 }
 
-export default Products
+export default connect((state) => ({ products: state.products }),
+  { fetchProducts, })(Products)
+
+// export default Products
 
 const Container = styled.div`
   padding: 10px; 

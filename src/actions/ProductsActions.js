@@ -1,5 +1,12 @@
 import { FETCH_PRODUCTS } from '../Types';
+import ApolloClient from 'apollo-boost'
+import { gql } from 'graphql-tag';
+import { InMemoryCache } from 'apollo-boost';
 
+const client = new ApolloClient({
+    uri: 'http://localhost:4000/gql',
+    cache: new InMemoryCache()
+  });
 // takes a function and dispatches a new function
 export const fetchProducts = () => (dispatch) => {
     
@@ -40,13 +47,12 @@ export const fetchProducts = () => (dispatch) => {
     }
     `})
     .then(result => console.log(result));
-    
-    dispatch({
-        type: FETCH_PRODUCTS,
-        payload: result.data.category.products
-    });
-}
 
+    // dispatch({
+    //     type: FETCH_PRODUCTS,
+    //     payload: data.category
+    // });
+}
 
 
 // const ALLPRODUCT_QUERY = gql`

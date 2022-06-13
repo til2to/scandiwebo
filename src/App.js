@@ -8,17 +8,14 @@ import { InMemoryCache } from 'apollo-boost'
 import Home from './components/Home';
 import { ProductList } from './Pages/ProductList';
 import { Navbar } from './components/Navbar';
-import { Products } from './components/Products';
-import { Product } from './components/Product';
+import Products from './components/Products';
+import Product from './components/Product';
 import { ProductItem } from './components/ProductItem';
 import Cart from './components/Cart';
 import { ALLPRODUCT_QUERY } from './Data/GraphqlData'
+import store from './store';
+import { Provider } from 'react-redux';
 
-
-const client = new ApolloClient({
-  uri: 'http://localhost:4000/gql',
-  cache: new InMemoryCache()
-})
 
 export class App extends Component {
   static propTypes = {}
@@ -29,22 +26,21 @@ export class App extends Component {
 
   render() {
     return (
-      <ApolloProvider client={client}>
+      <Provider store={store}>
         <Router>
           <div className='app'>
             <Switch>
               <Route exact path='/cart' component={Cart} />
               <Route path='/product/:id' component={Product} />
-              <Route path='/products/:name' component={Products} />
+              src/Data              <Route path='/products/:name' component={Products} />
               <Route exact path='/'>
                 <Navbar />
                 <Redirect to='/products/all/' />
               </Route>
-
             </Switch>
           </div>
         </Router>
-      </ApolloProvider>
+      </Provider>
     )
   }
 }

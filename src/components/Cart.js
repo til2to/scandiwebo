@@ -8,56 +8,36 @@ import CartItem from './CartItem'
 import { PRODUCT_QUERY } from '../Data/GraphqlData'
 import Product from './Product'
 import { gql } from 'graphql-tag';
+import { connect } from 'react-redux';
 
-// export const GET_CART_ITEMS = gql`
-//   query GetCartItems {
-//     cartItems: cartItems
-//   }
-// `
-export class Cart extends Component {
 
+class Cart extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    const { cartItems, currentProduct } = this.props;
+    const { cartItems } = this.props;
     console.log(cartItems);
 
     return (
       <Container>
         <Title>CART</Title>
-        {/* {cartItems?.length} */}
         <Hide>
-          {/* <Product addToCart={this.addToCart} /> */}
+         
         </Hide>
         <LeftContainer>
-          {/* {
-          cartItems?.length == undefined ? (<EmptyCart>Your cart is empty</EmptyCart>)
+          {
+          cartItems?.length == 0 ? (<EmptyCart>Your cart is empty</EmptyCart>)
           : (<CartNumber> You have {cartItems?.length} in the cart</CartNumber>)
-          } */}
-          <Button >
-            ADD TO CART
-          </Button>
-          {/* <Query query={PRODUCT_QUERY} variables={{ title: "all" }}>
-            {
-              ({ data, loading, error }) => {
-                if (loading) return <h4> Loading.</h4>
-                if (error) console.log(error.message)
-                
-                return <Wrap>
-                  {
-                    data.category.products.map(product => (
-                      <CartItem key={product.id} product={product} />
-                    )) 
-                  }
-                </Wrap>
-              }
-            }
-          </Query> */}
+          }
         </LeftContainer>
       </Container>
     )
   }
 }
 
-export default Cart
+export default connect((state) => ({ cartItems: state.cart }),
+  null)(Cart)
 
 const Container = styled.div`
   display: flex;

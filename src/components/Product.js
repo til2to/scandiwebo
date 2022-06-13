@@ -8,14 +8,16 @@ import Attributes from './Attributes'
 import Categories from './Categories';
 import SideList from './SideList'
 import { Link } from 'react-router-dom';
-import { Cart } from './Cart';
+import Cart from './Cart';
 import { Products } from './Products';
 import { PRODUCT_QUERY } from '../Data/GraphqlData';
+import { connect } from 'react-redux';
+import { addToCart } from '../actions/cartActions'
 
 
-export class Product extends Component {
-  constructor() {
-    super();
+class Product extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       index: 0,
       cartItems: []
@@ -24,7 +26,7 @@ export class Product extends Component {
 
   static propTypes = {}
 
-  addToCart = (currentProduct) => {
+  // addToCart = (currentProduct) => {
   // const { cartItems } = this.state;
   // const { id } = currentProduct;
   // console.log(currentProduct);
@@ -38,20 +40,20 @@ export class Product extends Component {
   // }
   // console.log(cartItems.length)
 
-  const cartItems = this.state.cartItems.slice();
-  let alreadyInCart = false;
-  cartItems.forEach((item) => {
-    if (item.id === currentProduct.id) {
-  return { ...item, count: item.count + 1 }
-      item.count+=1
-      alreadyInCart = true;
-    }
-  });
-  if (!alreadyInCart) {
-    cartItems.push({ ...currentProduct, count: 1 });
-  }
-  this.setState({ cartItems })
-  }
+  // const cartItems = this.state.cartItems.slice();
+  // let alreadyInCart = false;
+  // cartItems.forEach((item) => {
+  //   if (item.id === currentProduct.id) {
+  // return { ...item, count: item.count + 1 }
+  //     item.count+=1
+  //     alreadyInCart = true;
+  //   }
+  // });
+  // if (!alreadyInCart) {
+  //   cartItems.push({ ...currentProduct, count: 1 });
+  // }
+  // this.setState({ cartItems })
+  // }
 
   myRef = React.createRef();
 
@@ -65,13 +67,13 @@ export class Product extends Component {
 
   render() {
     let { id } = this.props.match.params
-    const { index, cartItems } = this.state;
+    const { index } = this.state;
     // console.log(this.state)
     return (
       <Container>
         {/* <Categories /> */}
 
-        <Navbar cartItems={cartItems} />
+        <Navbar />
         <Query query={PRODUCT_QUERY} variables={{ id: id }}>
           {
             ({ loading, data, error }) => {
@@ -107,17 +109,13 @@ export class Product extends Component {
                     </PriceInfo>
                   </AttributesContainer>
 
-                  {/* <Link to='/cart' style={{ textDecoration: 'none' }}>
-                    <Button onClick={() => this.addToCart(currentProduct)} cartItems={cartItems}>
+                  <Link to='/cart' style={{ textDecoration: 'none' }}>
+                    <Button onClick={() => this.props.addToCart(currentProduct)} >
                       ADD TO CART
                     </Button>
-                  </Link> */}
-                  <Button onClick={() => this.addToCart(currentProduct)} >
-                    ADD TO CART
-                  </Button>
-                  {console.log(cartItems)}
+                  </Link>
                   <Hide>
-                    <Cart cartItems={cartItems} />
+                    <Cart />
                   </Hide>
                   <ProductDescription><div dangerouslySetInnerHTML={{ __html: description }} /></ProductDescription>
                 </ProductInfo>
@@ -130,7 +128,8 @@ export class Product extends Component {
   }
 }
 
-export default Product
+export default connect(null,
+  { addToCart })(Product)
 
 const Container = styled.div`
   display: flex;
