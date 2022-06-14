@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export class UnSwatch extends Component {
+class UnSwatch extends Component {
   static propTypes = {
 
   }

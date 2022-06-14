@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import { gql } from 'graphql-tag'
 import styled from 'styled-components';
-import { Navbar } from './Navbar';
+import Navbar from './Navbar';
 import Attributes from './Attributes'
 import Categories from './Categories';
 import SideList from './SideList'
 import { Link } from 'react-router-dom';
 import Cart from './Cart';
-import { Products } from './Products';
 import { PRODUCT_QUERY } from '../Data/GraphqlData';
 import { connect } from 'react-redux';
 import { addToCart } from '../actions/cartActions'
@@ -68,7 +67,6 @@ class Product extends Component {
   render() {
     let { id } = this.props.match.params
     const { index } = this.state;
-    // console.log(this.state)
     return (
       <Container>
         {/* <Categories /> */}
@@ -108,7 +106,6 @@ class Product extends Component {
                       </AttributePrice>
                     </PriceInfo>
                   </AttributesContainer>
-
                   <Link to='/cart' style={{ textDecoration: 'none' }}>
                     <Button onClick={() => this.props.addToCart(currentProduct)} >
                       ADD TO CART
@@ -170,7 +167,7 @@ const ProductInfo = styled.div`
 `
 const Brand = styled.span`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 25px;
   line-height: 27px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -181,7 +178,7 @@ const Name = styled.span`
   display: flex;
   align-items: center;
   font-weight: 250;
-  font-size: 30px;
+  font-size: 25px;
   font-style: normal;
   color: #1D1F22;
 `
@@ -227,7 +224,6 @@ const SideWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
-  
 `
 const SideImageC = styled.img`
   max-width: 130px;

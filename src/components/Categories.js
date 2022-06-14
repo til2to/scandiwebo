@@ -5,7 +5,7 @@ import { CategoryItem } from './CategoryItem';
 import { Query } from 'react-apollo'
 import { gql } from 'graphql-tag'
 import CategoryName from './CategoryName'
-import { Navbar } from './Navbar'
+import Navbar from './Navbar'
 import { CATEGORIES_QUERY } from '../Data/GraphqlData'
 
 class Categories extends Component {
@@ -20,7 +20,7 @@ class Categories extends Component {
               if (loading) return <h3>loading in categories</h3>
               if (error) console.log(error.message)
               // const {categories:{name}} = data.categories
-              
+
               return <Wrap>
                 {
                   data.categories.map(catItem => (
@@ -28,7 +28,7 @@ class Categories extends Component {
                   ))
                 }
               </Wrap>
-          
+
             }
           }
         </Query>

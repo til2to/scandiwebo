@@ -12,7 +12,7 @@ export class SwatchItem extends Component {
     return (
       <Container>
           <Wrapper>
-              <ColorContainer style={{backgroundColor:value}}>
+              <ColorContainer style={{backgroundColor:displayValue}}>
                 {value}  
               </ColorContainer>
           </Wrapper>
@@ -35,7 +35,7 @@ const ColorContainer = styled.div`
   margin-top: 0px;
   max-width: 40px;
   max-height: 40px; 
-  border: 1px solid #A6A6A6;
+  border: 1px solid #e5e5e5;
   display: flex;
   justify-content: center;
   padding: 8px;

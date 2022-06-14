@@ -2,15 +2,15 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components';
 import SwatchItem from './SwatchItem';
-import { UnSwatch } from './UnSwatch';
+import UnSwatch from './UnSwatch';
 
 
-export class Attributes extends Component {
+class Attributes extends Component {
   static propTypes = {}
 
   render() {
     const { name, type, id, items } = this.props.item
-    // {items.filter((key) => console.log(key.value))} 
+     
     return (
       <Container>
         <Wrapper> 

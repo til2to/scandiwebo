@@ -21,7 +21,7 @@ export const cartReducer = (state = initialState, action) => {
             // }
             
             // }
-            console.log(action.payload)
+            // console.log(action.payload)
             return { 
                 ...state,
                 cart: [...state.cart, action.payload]  

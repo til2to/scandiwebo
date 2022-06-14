@@ -17,111 +17,43 @@ class Cart extends Component {
   }
   render() {
     const { cartItems } = this.props;
-    console.log(cartItems);
 
     return (
       <Container>
         <Title>CART</Title>
-        <Hide>
-         
-        </Hide>
-        <LeftContainer>
           {
-          cartItems?.length == 0 ? (<EmptyCart>Your cart is empty</EmptyCart>)
-          : (<CartNumber> You have {cartItems?.length} in the cart</CartNumber>)
+            cartItems?.length === 0 
+            ? 
+            (<EmptyCart>Your cart is empty</EmptyCart>)
+            : 
+           cartItems.map((item, index) => (
+              <CartItem key={index} item={item} />
+            ))
           }
-        </LeftContainer>
+          <TaxInfo>
+            <Items style={{marginTop: '20px'}}>Tax:</Items>
+            <Items>Quantity: </Items>
+            <Items>Total: </Items>
+          </TaxInfo>
+
+          <Button> ORDER </Button>
       </Container>
     )
   }
 }
 
-export default connect((state) => ({ cartItems: state.cart }),
+export default connect((state) => ({ cartItems: state.cart.cart }),
   null)(Cart)
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 30px;
+  margin: 50px;
 `
-const Wrap = styled.div`
-  display: flex;
-`
-const Title = styled.div`
-  // margin-bottom: 30px;
-`
-const LeftContainer = styled.div`
-  flex: 1
-`
-const RightContainer = styled.div`
-  flex; 1
-`
-const SideImages = styled.div`
-  margin-top: 100px; 
-  margin-right: 25px;
-`
-const ProductImg = styled.div`
-  display: flex;
-  box-sizing: border-box;
-  flex: 1;
-  margin-left: 5px;
-  margin-top: 100px;
-  justify-content: center;
-  max-width: 500px;
-   `
-const Image_ = styled.img`
-  display: flex;
-  max-height: 50%;
-  border: 0.5px ;
-  widht: 400px;
-  height: 500px;
-   `
-const ProductInfo = styled.div`
-  // flex:1;
-  margin-top: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 30px;
-  margin-left: 40px;
-`
-const Brand = styled.span`
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 27px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-`
-const Name = styled.span`
-  line-height: 27px;
-  width: 192;
-  display: flex;
-  align-items: center;
-  font-weight: 250;
-  font-size: 30px;
-  font-style: normal;
-  color: #1D1F22;
-`
-const AttributesContainer = styled.div`
-  margin-top:15px;
-`
-const AttributePrice = styled.span`
-  font-weight: 700;
-  margin-bottom: 10px; 
-`
-const PriceInfo = styled.span`
-  display: flex;
-  flex-direction: column;
-`
-const EmptyCart = styled.div`
-  // margin-top: 100px;
-  margin-bottom: 100px;
-  font-size: 20px;
-  text-align: center;
-  color: #1D1F22;
-`
-const CartNumber = styled.div`
-
+const Title = styled.span`
+  margin-bottom: 50px;
+  font-size: 25px;
+  font-weight: 500;
 `
 const Button = styled.div`
   font-weight: 600;
@@ -135,10 +67,23 @@ const Button = styled.div`
   opacity: 0.85;
   font-size: 13px;
   cursor: pointer;
-  margin-top: 5px;
+  margin-top: 15px;
   margin-bottom: 10px;
   align-items: center;  
 `
-const Hide = styled.div`
-  display: none;
+const TaxInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  border-top: 1px solid #E5E5E5;
+`
+const Items = styled.div`
+    margin-top: 10px;
+    margin-botton: 10px;
+    font-size: 20px;
+    font-weight: 100;
+`
+const EmptyCart = styled.span`
+  font-size: 20px;
+  font-weight: 100;
 `

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import Categories from './Categories';
 import { CategoryItem } from './CategoryItem';
 
-export class Navbar extends Component{
+class Navbar extends Component{
 
   static propTypes = {}
 

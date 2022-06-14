@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import CategoryName from '../components/CategoryName'
 import Products from '../components/Products';
 import Categories from '../components/Categories';
-import { Navbar } from '../components/Navbar';
+import Navbar from '../components/Navbar';
 import { Link, params } from 'react-router-dom';
 
 export class ProductList extends Component {
