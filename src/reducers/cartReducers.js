@@ -22,10 +22,20 @@ export const cartReducer = (state = initialState, action) => {
             
             // }
             // console.log(action.payload)
+
+            // let cart = Array.from(state.cart)
+            // for(let i=0; i<cart.length; i++){
+            //     if(cart[i] == action.payload){
+            //         cart[i].count += 1
+            //     }
+            //     else{
+            //         cart.push({...action.payload, count: 1})
+            //     }
+            //     }
             return { 
                 ...state,
-                cart: [...state.cart, action.payload]  
-
+                cart: [...state.cart, action.payload]
+                // cart: [...cart]  
             };
             
         default:

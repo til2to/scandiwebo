@@ -13,7 +13,6 @@ class Categories extends Component {
 
   render() {
     return (
-      <Container>
         <Query query={CATEGORIES_QUERY}>
           {
             ({ data, loading, error }) => {
@@ -32,7 +31,6 @@ class Categories extends Component {
             }
           }
         </Query>
-      </Container>
     )
   }
 }
@@ -43,8 +41,8 @@ const Container = styled.div`
   // display: flex;
 `
 const Wrap = styled.div`
-   display: flex;
-   flex-direction: column;
+   display: flex; 
+  //  flex-direction: column;
 `
 const Button = styled.div`
   font-weight: 600;

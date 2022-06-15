@@ -22,9 +22,7 @@ const CATEGORY_QUERY = gql`
 `
 
 export class CategoryName extends Component {
-  static propTypes = {
-
-  }
+  static propTypes = {}
 
   render() {
     let { category:{name, products:{id, inStock}} } = this.props.match.params;

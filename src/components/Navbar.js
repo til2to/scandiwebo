@@ -9,79 +9,65 @@ import logoH from '../images/logoH.png'
 import { Link } from 'react-router-dom';
 import Categories from './Categories';
 import { CategoryItem } from './CategoryItem';
+import { connect } from 'react-redux';
+import MyBag from './MyBag'
 
-class Navbar extends Component{
+class Navbar extends Component {
 
-  static propTypes = {}
+    static propTypes = {}
 
-  render() {
-    const { cartItems } = this.props 
-    // console.log(cartItems[0].name)
-    return (
-      <Container> 
-          <Wrapper>
-            <NavLeft>                
-                <Left_first>
-                    <LeftItem>All</LeftItem>
-                </Left_first>
-                <Left_second>
-                    <LeftItem>Tech</LeftItem>
-                </Left_second>
-                <Left_third>
-                    <LeftItem>Clothes</LeftItem>
-                </Left_third>
-                {/* <Link to={`/products/${name}`} style={{ textDecoration: "none" }}>
-                    <p style={{ display: "flex" }}> {name} </p> 
-                </Link> */}
-            </NavLeft>
-            <NavCenter>
-              <LogoHolder src={logoH} alt="" />
-              <NavLogo src={logo} alt="" />
-            </NavCenter>
-            <NavRight>
-                <CurrencyItems>
-                    <Currency src={dollar} alt=""/>                             
-                    <DownArrow src={down_arrow} alt=""/> 
-                    <Bag src={basket_} alt="" />
-                    {/* {cartItems.length} */}
-                </CurrencyItems>
-            </NavRight>
-          </Wrapper>
-      </Container>
-    )
-  }
+    render() {
+        const { cartItems } = this.props
+
+        return (
+            <Container>
+                <Wrapper>
+                    <NavLeft>
+                        <Categories />
+                    </NavLeft>
+                    <NavCenter>
+                        <LogoHolder src={logoH} alt="" />
+                        <NavLogo src={logo} alt="" />
+                    </NavCenter>
+                    <NavRight>
+                        <CurrencyItems>
+                            <Currency src={dollar} alt="" />
+                            <DownArrow src={down_arrow} alt="" />
+                            <Bag>
+                                <TotalItems>
+                                    {cartItems?.length}
+                                </TotalItems>
+                                <img src={basket_} alt='' style={{alignSelf: 'flex-end'}}/>
+                            </Bag>
+                        </CurrencyItems>
+                    </NavRight>
+                </Wrapper>
+            </Container>
+        )
+    }
 }
 
-export default Navbar
+export default connect((state) => ({ cartItems: state.cart.cart }),
+    null)(Navbar)
 
 const Container = styled.div`
-    background-color: ;
-    height: 60px;
-    
+    height: 60px;  
   `
 const Wrapper = styled.div`
     display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;    
 `
 const NavLeft = styled.div`
     flex: 1;
     display: flex;
     margin: 10px;
     align-items: center;
-    // justify-content: center
-    margin-left: 45px;  
 `
-const NavCenter = styled.div`
-    
+const NavCenter = styled.div`   
     flex: 1;
     margin-left: 30px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    // height: 28.62px;
-    // width: 31.18px;
-    
+    align-items: center; 
 `
 const LogoHolder = styled.img`
     position: relative;
@@ -101,19 +87,6 @@ const NavRight = styled.div`
     display: flex;
     justify-content: flex-end;
 `
-const Left_first = styled.span`
-    margin-right: 25px;
-`
-const Left_second = styled.span`
-    margin-right: 25px;
-`
-const Left_third = styled.span`
-    margin-right: 25px;
-`
-const LeftItem = styled.span`
-    font-weight: 150;
-    cursor: pointer;
-    `
 const Currency = styled.img`
     margin-right: 10px;
 `
@@ -123,16 +96,24 @@ const CurrencyItems = styled.div`
     justify-content: center;
     margin-right: 30px;
     margin-left: 10px;
-
 `
 const DownArrow = styled.img`
     height: 3px;
     width: 6px;
     margin-top: 4px;
 `
-const Bag = styled.img`
+const Bag = styled.div`
     margin-right:30px;
-    height: 18px;
-    margin-left: 15px;
-    
+    margin-left: 15px; 
+    position: relative; 
+`
+const TotalItems = styled.div`
+    position: absolute;
+    padding: 2px 5px;
+    background: rgba(0,0,0,0.73);
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    bottom: 10px;
+    left: 10px;
 `

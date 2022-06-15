@@ -18,8 +18,7 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
-      cartItems: []
+      index: 0
     };
   }
 
@@ -67,10 +66,9 @@ class Product extends Component {
   render() {
     let { id } = this.props.match.params
     const { index } = this.state;
+
     return (
       <Container>
-        {/* <Categories /> */}
-
         <Navbar />
         <Query query={PRODUCT_QUERY} variables={{ id: id }}>
           {
@@ -129,11 +127,8 @@ export default connect(null,
   { addToCart })(Product)
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin-top: 50px; 
+  padding: 10px;
 `
 const Wrapper = styled.div`
   display: flex;

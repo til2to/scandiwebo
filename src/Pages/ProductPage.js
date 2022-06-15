@@ -4,9 +4,7 @@ import styled from 'styled-components'
 
 
 export class ProductPage extends Component {
-  static propTypes = {
-
-  }
+  static propTypes = {}
 
   render() {
     const {gallery} = this.props

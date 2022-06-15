@@ -7,33 +7,20 @@ import { Navbar } from './Navbar';
 
 export class CategoryItem extends Component {
   static propTypes = {}
-  state = {
-    cat: []
-  }
 
   render() {
     const { catItem: { name } } = this.props
     return (
-      <Container>
-        <Wrapper >
           <Link to={`/products/${name}`} style={{textDecoration: "none", display: "flex"}}>
-            <p> {name} </p>
+            <Wrapper> {name.toUpperCase()} </Wrapper>
           </Link>
-        </Wrapper>
-      </Container>
     )
   }
 }
 
 export default CategoryItem
 
-const Container = styled.div`
-    // flex: 1;
-    min-width: 400px;
-`
-const Wrapper = styled.div`
-    // display: flex;
-    // flex-direction: column;
+const Wrapper = styled.span`
     padding: 10px;
     max-width: 150px; 
 `

@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Query } from 'react-apollo'
-import { gql } from 'graphql-tag'
-import { Params } from 'react-router-dom'
 import basket from '../images/basket.png'
 
 
@@ -46,16 +43,16 @@ export class ProductItem extends Component {
 export default ProductItem
 
 const ProductSelector = styled.div`
-position: absolute;
-right: 15%;
-bottom: 0;
-width: 52px;
-height: 52px;
-opacity: 0;
+    position: absolute;
+    right: 15%;
+    bottom: 0;
+    width: 52px;
+    height: 52px;
+    opacity: 0;
 `
 const Container = styled.div`
     flex: 1;
-    max-width: 410px;
+    max-width: 370px;
     margin-bottom: 15px;
     position: relative;
 
@@ -67,13 +64,13 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
-    width: 400px;
-    height: 386px;
+    width: 310px;
+    height: 330px;
 `
 const ProductImage = styled.div`
     margin-bottom: 10px;
-    width: 380px;
-    height: 370px;
+    width: 310px;
+    height: 300px;
     position: relative;
 
     &:hover{
@@ -82,8 +79,8 @@ const ProductImage = styled.div`
 `
 const Gallery = styled.img`
     object-fit: none;
-    width: 356px;
-    height: 338px;
+    width: 300px;
+    height: 280px;
     position: relative;
 `
 const Image_ = styled.div`
@@ -96,7 +93,6 @@ const Stock = styled.div`
     right: 40%;
 `
 const ProductInfo = styled.div`
-    // margin-left: 5px;
 `
 const PriceItems = styled.div`
     display: flex;
@@ -124,9 +120,4 @@ const SelectIcon = styled.img`
     align-items: center;
     border-radius: 50%;
     transition: all 0.5s ease
-
-    &:hover{
-        // background-color: #5ECE7B;
-        // transform: scale(1.1);
-    }
   `

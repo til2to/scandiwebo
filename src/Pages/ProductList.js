@@ -14,7 +14,7 @@ export class ProductList extends Component {
   
     return (
       <Container>
-        {/* <Navbar /> */}
+        <Navbar />
         <Products />
       </Container>
     )
@@ -24,7 +24,6 @@ export class ProductList extends Component {
 export default ProductList
 
 const Container = styled.div`
-    // background-color: blue;
 `
 const Button = styled.div`
   font-weight: 600;

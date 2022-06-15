@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Attributes } from './Attributes';
-import { SideList } from './SideList';
-import { ProductItem } from './ProductItem';
-import CartItem from './CartItem'
 import { PRODUCT_QUERY } from '../Data/GraphqlData'
-import Product from './Product'
 import { gql } from 'graphql-tag';
 import { connect } from 'react-redux';
+import Navbar from './Navbar';
+import CartItem from './CartItem';
+import MyBag from './MyBag';
 
 
 class Cart extends Component {
@@ -17,26 +15,32 @@ class Cart extends Component {
   }
   render() {
     const { cartItems } = this.props;
-
+    
     return (
       <Container>
-        <Title>CART</Title>
+        <Navbar />
+          <Wrapper>
+          <Title>
+            <span>CART</span>
+          </Title>
           {
-            cartItems?.length === 0 
-            ? 
-            (<EmptyCart>Your cart is empty</EmptyCart>)
-            : 
-           cartItems.map((item, index) => (
-              <CartItem key={index} item={item} />
-            ))
+            cartItems?.length === 0
+              ?
+              (<EmptyCart>Your cart is empty</EmptyCart>)
+              :
+              cartItems.map((item, index) => (
+                <CartItem key={index} item={item} />
+              ))
           }
           <TaxInfo>
-            <Items style={{marginTop: '20px'}}>Tax:</Items>
+            <Items style={{ marginTop: '20px' }}>Tax:</Items>
             <Items>Quantity: </Items>
             <Items>Total: </Items>
           </TaxInfo>
 
           <Button> ORDER </Button>
+          <MyBag />
+        </Wrapper>
       </Container>
     )
   }
@@ -48,12 +52,16 @@ export default connect((state) => ({ cartItems: state.cart.cart }),
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 50px;
+  padding: 10px;
 `
-const Title = styled.span`
-  margin-bottom: 50px;
+const Wrapper = styled.div`
+  margin-left: 20px;
+  margin-top: 30px;
+`
+const Title = styled.div`
   font-size: 25px;
   font-weight: 500;
+  margin-bottom: 40px;
 `
 const Button = styled.div`
   font-weight: 600;
@@ -74,7 +82,6 @@ const Button = styled.div`
 const TaxInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
   border-top: 1px solid #E5E5E5;
 `
 const Items = styled.div`
@@ -86,4 +93,5 @@ const Items = styled.div`
 const EmptyCart = styled.span`
   font-size: 20px;
   font-weight: 100;
+  margin-bottom: 10px;
 `

@@ -15,10 +15,6 @@ import { Provider } from 'react-redux';
 class App extends Component {
   static propTypes = {}
 
-  // componentDidMount() {
-  //   client.query({ query: ALLPRODUCT_QUERY })
-  // }
-
   render() {
     return (
       <Provider store={store}>
@@ -27,7 +23,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/cart' component={Cart} />
               <Route path='/product/:id' component={Product} />
-              src/Data              <Route path='/products/:name' component={Products} />
+              <Route path='/products/:name' component={Products} />
               <Route exact path='/'>
                 <Navbar />
                 <Redirect to='/products/all/' />
