@@ -3,35 +3,52 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import basket from '../images/basket.png'
+import PriceItem from './PriceItem'
+import { connect } from 'react-redux';
+import { addToCart } from '../actions/cartActions'
 
 
-export class ProductItem extends Component {
+class ProductItem extends Component {
     static propTypes = {}
 
     render() {
-        const { name, brand, gallery, id, prices, inStock } = this.props.prod;
-
+        const { name, brand, gallery, id, prices, inStock, attributes} = this.props.prod;
+        let currentProduct = this.props.prod
+        
         return (
-            <Container style={!inStock ? {pointerEvents: 'none', opacity: 0.55} : {}}>
-                <Wrapper>      
-                    <ProductImage>                       
+            <Container style={!inStock ? { pointerEvents: 'none', opacity: 0.55 } : {}}>
+                <Wrapper>
+                    <ProductImage>
                         <Image_>
-                           <Gallery src={gallery[0]} />
-                           {!inStock &&
-                          <Stock>OUT OF STOCK</Stock>}
-                        </Image_>         
-                        <Link to={`/product/${id}`}>
-                            <ProductSelector>
-                                <SelectIcon src={basket}/>
-                            </ProductSelector>
+                            <Gallery src={gallery[0]} />
+                            {!inStock &&
+                                <Stock>OUT OF STOCK</Stock>}
+                        </Image_>
+                        <Link to={`/product/${id}`}> 
+                            { 
+                            attributes == '' ?
+                                (<ProductSelector onClick={() => this.props.addToCart(currentProduct)}>
+                                    <SelectIcon src={basket} />
+                                </ProductSelector>)
+                                :
+                                (<ProductSelector>
+                                    <SelectIcon src={basket} />
+                                </ProductSelector>)
+                            }
                         </Link>
                     </ProductImage>
                     <ProductInfo>
                         <Brand>{brand}</Brand>
                         <Name>{name}</Name>
                         <PriceItems>
-                            {/* <CurrencySymbol>$</CurrencySymbol> */}
-                            <Amount>{prices[0].currency.symbol} {prices[0].amount}</Amount>
+                            <CurrencySymbol>
+                                {
+                                    prices.map((item, index) => (
+                                        <PriceItem key={index} item={item} />
+                                    ))
+                                }
+                            </CurrencySymbol>
+                            {/* <Amount>{prices[0].currency.symbol} {prices[0].amount}</Amount> */}
                         </PriceItems>
                     </ProductInfo>
                 </Wrapper>
@@ -40,7 +57,7 @@ export class ProductItem extends Component {
     }
 }
 
-export default ProductItem
+export default connect(null, { addToCart })(ProductItem)
 
 const ProductSelector = styled.div`
     position: absolute;

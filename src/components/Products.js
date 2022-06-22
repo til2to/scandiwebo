@@ -1,32 +1,31 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import styled from 'styled-components'
 import ProductItem from './ProductItem'
 import ProductPage from '../Pages/ProductPage'
-import Categories from './Categories';
-import Navbar from './Navbar';
-import { CategoryItem } from './CategoryItem';
 import { ALLPRODUCT_QUERY } from '../Data/GraphqlData'
 import { fetchProducts } from '../actions/ProductsActions';
 import { connect } from 'react-redux';
-import CategoryName from './CategoryName'
 
 
 class Products extends Component {
 
   render() {
     let { name } = this.props.match.params
+    const pageSize = 12;
     return (
       <Container>
-        <Navbar />
-        {/* <CategoryItem /> */}
+        <CategoryName>
+          Category {name}
+        </CategoryName>
+
         <Query query={ALLPRODUCT_QUERY} variables={{ title: name }}>
           {
             ({ data, loading, error }) => {
               if (loading) return <h4> Loading.</h4>
               if (error) console.log(error.message)
-              if (data) console.log(data)
+              
               return <Wrap>
                 {
                   data.category.products.map(prod => (
@@ -47,6 +46,15 @@ export default connect((state) => ({ products: state.products }),
 
 const Container = styled.div`
   padding: 10px;
+  margin-left: 25px;
+  margin-right: 25px;
+`
+const CategoryName = styled.div`
+  font-weight: 250;
+  font-size: 25px;
+  margin-top: 45px;
+  margin-bottom: 100px;
+  margin-left: 20px;
 `
 const Wrap = styled.div`
   display: flex;

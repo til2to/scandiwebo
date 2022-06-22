@@ -1,14 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
-import { gql } from 'graphql-tag'
 import styled from 'styled-components';
-import Navbar from './Navbar';
 import Attributes from './Attributes'
-import Categories from './Categories';
 import SideList from './SideList'
-import { Link } from 'react-router-dom';
-import Cart from './Cart';
 import { PRODUCT_QUERY } from '../Data/GraphqlData';
 import { connect } from 'react-redux';
 import { addToCart } from '../actions/cartActions'
@@ -18,42 +13,34 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0
+      index: 0,
+      product: {}
     };
   }
 
   static propTypes = {}
 
-  // addToCart = (currentProduct) => {
-  // const { cartItems } = this.state;
-  // const { id } = currentProduct;
-  // console.log(currentProduct);
-  // let alreadyInCart = false;
-  // const cartItem = cartItems.find(item => item.id === id)
-  // if (cartItem) {
-  //   cartItem.quantity += 1
-  //   alreadyInCart = true
-  // } else {
-  //   cartItems.push({ ...currentProduct, quantity: 1 })      
-  // }
-  // console.log(cartItems.length)
+  handleClick = (property, item_id) => {
+    this.setState({ product: { ...this.state.product, [property]: item_id } })
+    console.log(item_id)
+  }
 
-  // const cartItems = this.state.cartItems.slice();
-  // let alreadyInCart = false;
-  // cartItems.forEach((item) => {
-  //   if (item.id === currentProduct.id) {
-  // return { ...item, count: item.count + 1 }
-  //     item.count+=1
-  //     alreadyInCart = true;
-  //   }
-  // });
-  // if (!alreadyInCart) {
-  //   cartItems.push({ ...currentProduct, count: 1 });
-  // }
-  // this.setState({ cartItems })
-  // }
-
-  myRef = React.createRef();
+  submitToCart = (item) => {
+    const objectArray = Object.entries(this.state.product);
+    let newAttributes = []
+    objectArray.forEach(([key, value]) => {
+      newAttributes.push({ name: key, value: value })
+    });
+    let copied = JSON.parse(JSON.stringify(item));
+    copied.attributes = newAttributes
+    
+    if(copied.attributes == ''){
+      console.log('select an attribute')
+    }
+    else{
+      this.props.addToCart(copied)
+    }
+  }
 
   handleTab = (index) => {
     this.setState({ index: index })
@@ -65,24 +52,23 @@ class Product extends Component {
 
   render() {
     let { id } = this.props.match.params
-    const { index } = this.state;
+    const { index, color, text } = this.state;
 
     return (
       <Container>
-        <Navbar />
         <Query query={PRODUCT_QUERY} variables={{ id: id }}>
           {
             ({ loading, data, error }) => {
               if (loading) return <h1>Loading...</h1>
               if (error) console.log(error)
 
-              const { id, prices, gallery, name, brand, description, inStock, attributes } = data.product;
+              const { prices, gallery, name, brand, description, attributes } = data.product;
               let currentProduct = data.product;
 
               return <Wrapper>
                 <SideImgContainer>
                   <SideWrapper>
-                    <SideList gallery={gallery} tab={this.handleTab} myRef={this.myRef} />
+                    <SideList gallery={gallery} tab={this.handleTab} />
                   </SideWrapper>
                 </SideImgContainer>
                 <ProductImg>
@@ -94,7 +80,8 @@ class Product extends Component {
                   <AttributesContainer>
                     {
                       data.product.attributes.map((item) => (
-                        <Attributes key={item.id} item={item} />
+                        <Attributes key={item.id} item={item}
+                          selectedAttributes={this.state.product} handleClick={this.handleClick} />
                       ))
                     }
                     <PriceInfo>
@@ -104,14 +91,19 @@ class Product extends Component {
                       </AttributePrice>
                     </PriceInfo>
                   </AttributesContainer>
-                  <Link to='/cart' style={{ textDecoration: 'none' }}>
-                    <Button onClick={() => this.props.addToCart(currentProduct)} >
-                      ADD TO CART
-                    </Button>
-                  </Link>
-                  <Hide>
-                    <Cart />
-                  </Hide>
+                  {
+                    attributes != ''
+                      ?
+                      (
+                        <Button onClick={() => this.submitToCart(currentProduct)}>          
+                          ADD TO CART
+                        </Button>
+                      )
+                      :
+                      (<Empty>Sorry! no attributes to select.
+                        Product already added to cart
+                      </Empty>)
+                  }
                   <ProductDescription><div dangerouslySetInnerHTML={{ __html: description }} /></ProductDescription>
                 </ProductInfo>
               </Wrapper>
@@ -123,12 +115,13 @@ class Product extends Component {
   }
 }
 
-export default connect(null,
-  { addToCart })(Product)
+export default connect(null, { addToCart })(Product)
 
 const Container = styled.div`
   justify-content: center;
   padding: 10px;
+  margin-left: 25px;
+  margin-right: 25px;
 `
 const Wrapper = styled.div`
   display: flex;
@@ -142,7 +135,7 @@ const ProductImg = styled.div`
   margin-left: 20px;
   margin-top: 15px;
   justify-content: center;
-  max-width: 500px;
+  max-width: 480px;
    `
 const Image_ = styled.img`
   display: flex;
@@ -152,8 +145,6 @@ const Image_ = styled.img`
   height: 500px;
    `
 const ProductInfo = styled.div`
-  // flex:1;
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -178,7 +169,7 @@ const Name = styled.span`
   color: #1D1F22;
 `
 const AttributesContainer = styled.div`
-  margin-top:15px;
+  margin-top: 15px;
 `
 const AttributePrice = styled.span`
   font-weight: 700;
@@ -213,6 +204,7 @@ const ProductDescription = styled.div`
 `
 const SideImgContainer = styled.div`
   margin-left: 20px;
+  margin-top: 100px;
 `
 const SideWrapper = styled.div`
   margin-left: 20px;
@@ -226,16 +218,10 @@ const SideImageC = styled.img`
   object-fit: contain;
   margin-bottom: 5px;
   cursor: pointer;
-
-  &:hover,
-  $.active {
-    background-color: rgba(84, 78, 114, 1);
-    border-radius: 10px 0px 0px 10px;
-  }
-  &.active {
-    color: #f8dc2f;
-  }
 `
-const Hide = styled.div`
-  display: none;
+const Empty = styled.span`
+  color: red;
+  font-size: 18px;
+  font-weight: 500px;
+  flex-wrap: wrap;
 `

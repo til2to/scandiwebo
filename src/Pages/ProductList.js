@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import CategoryName from '../components/CategoryName'
 import Products from '../components/Products';
 import Categories from '../components/Categories';
 import Navbar from '../components/Navbar';

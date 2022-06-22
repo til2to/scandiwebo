@@ -6,21 +6,35 @@ import down_arrow from '../images/down_arrow.png'
 import dollar from '../images/dollar.png'
 import basket_ from '../images/basket_.png'
 import logoH from '../images/logoH.png'
-import { Link } from 'react-router-dom';
 import Categories from './Categories';
-import { CategoryItem } from './CategoryItem';
 import { connect } from 'react-redux';
-import MyBag from './MyBag'
+import Overlay from './Overlay';
+import PriceItem from './PriceItem'
+
 
 class Navbar extends Component {
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            toggleOverlay: false,
+        };
+    }
     static propTypes = {}
 
+    showOverlay = () => {
+        this.setState({
+            toggleOverlay: !this.state.toggleOverlay
+        })
+    }
+
     render() {
-        const { cartItems } = this.props
+
+        const { cartItems: {cart, quantity, total} } = this.props
+        const { toggleOverlay } = this.state
 
         return (
             <Container>
+
                 <Wrapper>
                     <NavLeft>
                         <Categories />
@@ -31,15 +45,30 @@ class Navbar extends Component {
                     </NavCenter>
                     <NavRight>
                         <CurrencyItems>
-                            <Currency src={dollar} alt="" />
-                            <DownArrow src={down_arrow} alt="" />
-                            <Bag>
-                                <TotalItems>
-                                    {cartItems?.length}
-                                </TotalItems>
-                                <img src={basket_} alt='' style={{alignSelf: 'flex-end'}}/>
-                            </Bag>
-                        </CurrencyItems>
+                            {/* <Currency src={dollar} alt="" /> */}
+                            <ArrowContainer>
+                                {/* <DownArrow src={down_arrow} alt="" /> */}
+                                <Symbol_Label>
+                                    {/* <PriceItem /> */}
+                                    <Select name=''>
+                                        <option value="USD">$ USD</option>
+                                        <option value="GBP">£ GBP</option>
+                                        <option value="AUD">A$ AUD</option>
+                                        <option value="JPY">¥ JPY </option>
+                                        <option value="RUB">₽ RUB</option>
+                                    </Select>
+                                </Symbol_Label>
+                            </ArrowContainer>
+                            <MyBag_Bag>
+                                <Bag onClick={() => this.showOverlay()}>
+                                    <TotalItems>
+                                        {quantity}
+                                    </TotalItems>
+                                    <img src={basket_} alt='' />
+                                </Bag>
+                            </MyBag_Bag>
+                            {toggleOverlay && <Overlay  overlayToggle={() => this.showOverlay()}/>}
+                      </CurrencyItems>
                     </NavRight>
                 </Wrapper>
             </Container>
@@ -47,14 +76,19 @@ class Navbar extends Component {
     }
 }
 
-export default connect((state) => ({ cartItems: state.cart.cart }),
+export default connect((state) => ({ cartItems: state.cart }),
     null)(Navbar)
 
 const Container = styled.div`
-    height: 60px;  
+    height: 60px;
+    z-index: 1;
   `
 const Wrapper = styled.div`
     display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
 `
 const NavLeft = styled.div`
     flex: 1;
@@ -82,10 +116,20 @@ const NavLogo = styled.img`
     height: 8.99px;
     position: absolute;
 `
+const Select = styled.select`
+    padding-right: 3px;
+    border: none;
+    font-size: 17px;
+    font-weight: 500;
+    font-style: 17px;
+    color: #1D1F22;
+    text-align: right;
+`
 const NavRight = styled.div`
     flex: 1;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 `
 const Currency = styled.img`
     margin-right: 10px;
@@ -104,8 +148,10 @@ const DownArrow = styled.img`
 `
 const Bag = styled.div`
     margin-right:30px;
-    margin-left: 15px; 
-    position: relative; 
+    margin-left: 20px; 
+    position: relative;
+    cursor: pointer;
+    margin-top: 7px;
 `
 const TotalItems = styled.div`
     position: absolute;
@@ -116,4 +162,10 @@ const TotalItems = styled.div`
     font-size: 12px;
     bottom: 10px;
     left: 10px;
+`
+const MyBag_Bag = styled.div`
+`
+const Symbol_Label = styled.div`
+`
+const ArrowContainer = styled.div`
 `

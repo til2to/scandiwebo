@@ -6,11 +6,6 @@ import { Link } from 'react-router-dom';
 export class SideList extends Component {
   static propTypes = {}
 
-  // handleSideImage = (index) => {
-  //   this.setState({ index: index })
-  //   console.log(index)
-  // }
-
   render() {
     const { gallery_item } = this.props;
     const {gallery, tab, myRef} = this.props;
@@ -22,12 +17,10 @@ export class SideList extends Component {
             {
             gallery.map((gallery_item, index) => (
               <SideImage src={gallery_item} key={index} 
-              onClick={() => tab(index)}/>
+              onClick={()=>tab(index)}/>
             ))
-            }
+          }
           </div>
-          {/* <SideImage src={ gallery_item } alt="" key={index}
-          onClick={()=>handleSideImage(index)} /> */}
         </Wrapper>
       </Container>
     )

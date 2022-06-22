@@ -170,3 +170,47 @@ const ShowTheLocationWithRouter = withRouter(ShowTheLocation);
               //   })
               //   this.setState({clothes_data: results})
               // }
+
+--------------
+  // addToCart = (currentProduct) => {
+  // const { cartItems } = this.state;
+  // const { id } = currentProduct;
+  // console.log(currentProduct);
+  // let alreadyInCart = false;
+  // const cartItem = cartItems.find(item => item.id === id)
+  // if (cartItem) {
+  //   cartItem.quantity += 1
+  //   alreadyInCart = true
+  // } else {
+  //   cartItems.push({ ...currentProduct, quantity: 1 })      
+  // }
+  // console.log(cartItems.length)
+
+  // const cartItems = this.state.cartItems.slice();
+  // let alreadyInCart = false;
+  // cartItems.forEach((item) => {
+  //   if (item.id === currentProduct.id) {
+  // return { ...item, count: item.count + 1 }
+  //     item.count+=1
+  //     alreadyInCart = true;
+  //   }
+  // });
+  // if (!alreadyInCart) {
+  //   cartItems.push({ ...currentProduct, count: 1 });
+  // }
+  // this.setState({ cartItems })
+  // }             
+
+  -----------
+  // for (let key in prices) {
+        //     console.log(key, prices[key])
+        // }
+        
+        prices.map((item, id) => {
+            // console.log(item, prices[item])
+        })
+        // for (var key in prices) {
+        //     for (var key2 in prices[key]) {
+        //       console.log(key2, prices[key][key2]);
+        //     }
+        //   }

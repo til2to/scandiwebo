@@ -1,2 +1,6 @@
 export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
 export const ADD_TO_CART = 'UPDATE_CART';
+export const ADD_COUNT = 'ADD_COUNT';
+export const SUB_COUNT = 'SUB_COUNT'
+export const SWITCH_CURRENCY = 'SWITCH_CURRENCY'
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'

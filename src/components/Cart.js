@@ -1,58 +1,56 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { PRODUCT_QUERY } from '../Data/GraphqlData'
-import { gql } from 'graphql-tag';
 import { connect } from 'react-redux';
-import Navbar from './Navbar';
 import CartItem from './CartItem';
-import MyBag from './MyBag';
+import PriceItem from './PriceItem'
+import { addCount, subCount } from '../actions/cartActions'
 
 
 class Cart extends Component {
-  constructor(props) {
-    super(props);
-  }
+  
   render() {
-    const { cartItems } = this.props;
-    
+    let { cartItems: { cart, quantity, total } } = this.props;
+    console.log(cart)
+
     return (
       <Container>
-        <Navbar />
-          <Wrapper>
+        <Wrapper>
           <Title>
             <span>CART</span>
           </Title>
           {
-            cartItems?.length === 0
+            // cartItems?.length === 0
+            quantity === 0
               ?
-              (<EmptyCart>Your cart is empty</EmptyCart>)
+              (<EmptyCart>Your cart is empty. Please add a product</EmptyCart>)
               :
-              cartItems.map((item, index) => (
-                <CartItem key={index} item={item} />
+              cart.map((item, index) => (
+                <CartItem key={index} item={item} addCount={this.props.addCount} subCount={subCount}/>
               ))
           }
           <TaxInfo>
-            <Items style={{ marginTop: '20px' }}>Tax:</Items>
-            <Items>Quantity: </Items>
-            <Items>Total: </Items>
+            <Items style={{marginTop: '20px'}}>Tax:</Items>
+            <Items>Quantity: {quantity}</Items>
+            <Items>total: {total}
+            </Items>
           </TaxInfo>
-
           <Button> ORDER </Button>
-          <MyBag />
         </Wrapper>
       </Container>
     )
   }
 }
 
-export default connect((state) => ({ cartItems: state.cart.cart }),
-  null)(Cart)
+export default connect((state) => ({ cartItems: state.cart }),
+  {addCount, subCount})(Cart)
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
+  margin-left: 22px;
+  margin-right: 10px;
 `
 const Wrapper = styled.div`
   margin-left: 20px;
@@ -82,15 +80,15 @@ const Button = styled.div`
 const TaxInfo = styled.div`
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #E5E5E5;
+  border-top: 0.5px solid #E5E5E5;
+  margin-right: 40px;
 `
 const Items = styled.div`
     margin-top: 10px;
-    margin-botton: 10px;
     font-size: 20px;
     font-weight: 100;
 `
-const EmptyCart = styled.span`
+const EmptyCart = styled.div`
   font-size: 20px;
   font-weight: 100;
   margin-bottom: 10px;
